@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+# Authon: yanminwei
+# Date: 2019/11/18
 
 import pymongo
 
@@ -32,7 +29,6 @@ class MongoPipeline(object):
 
     def process_item(self, item, spider):
         # collection_name = item.__class__.__name__
-        print("test.............")
         collection_name = 'dyliuti'
         self.db[collection_name].insert(dict(item))
         return item
