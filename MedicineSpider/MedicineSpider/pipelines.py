@@ -3,6 +3,7 @@
 # Date: 2019/11/18
 
 import pymongo
+from scrapy.exceptions import DropItem
 
 class MedicinespiderPipeline(object):
     def process_item(self, item, spider):
@@ -28,7 +29,8 @@ class MongoPipeline(object):
         self.client.close()
 
     def process_item(self, item, spider):
-        # collection_name = item.__class__.__name__
+        if item['basic_info'].get('name', None) is None:
+            return DropItem
         collection_name = 'dyliuti'
         self.db[collection_name].insert(dict(item))
         return item
