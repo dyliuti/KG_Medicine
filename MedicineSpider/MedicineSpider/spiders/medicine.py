@@ -55,8 +55,8 @@ class MedicineSpider(scrapy.Spider):
                 self.log_info.info("问题Response: " + response.text)
                 return self.next_request()
         elem = elem.split('/')[-2]
-        for _, k, key, handler in self.route:
-            if k == elem:
+        for _, keyword, key, handler in self.route:
+            if keyword == elem:
                 self.item[key] = handler(response)
                 break
         # 递归返回item和发起请求
@@ -74,7 +74,7 @@ class MedicineSpider(scrapy.Spider):
         descs = response.xpath('//div[@class="jib-articl-con jib-lh-articl"]/p/text()').extract()
         basic_info['desc'] = [remove_punc(desc) for desc in descs]
         p_tags = response.xpath('//div[@class="mt20 articl-know"]/p').xpath('string(.)').extract()
-        basic_info['attributes'] = [remove_punc(p_tag) for p_tag in p_tags if '：' in p_tag]
+        basic_info['attributes'] = [remove_punc_without_blank(p_tag) for p_tag in p_tags if '：' in p_tag]
         return basic_info
 
     '''病因、预防'''
