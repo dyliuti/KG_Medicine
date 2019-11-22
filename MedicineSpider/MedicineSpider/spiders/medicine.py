@@ -34,8 +34,7 @@ class MedicineSpider(scrapy.Spider):
 
     def start_requests(self):
         for url, _, _, _ in self.route:
-            print("url: ", url.format(index=1))
-            yield Request(url=url.format(index=1))
+            yield Request(url=url.format(index=10))
 
     def next_request(self):
         self.num += 1
@@ -74,7 +73,8 @@ class MedicineSpider(scrapy.Spider):
         descs = response.xpath('//div[@class="jib-articl-con jib-lh-articl"]/p/text()').extract()
         basic_info['desc'] = [remove_punc(desc) for desc in descs]
         p_tags = response.xpath('//div[@class="mt20 articl-know"]/p').xpath('string(.)').extract()
-        basic_info['attributes'] = [remove_punc_without_blank(p_tag) for p_tag in p_tags if '：' in p_tag]
+        basic_info['attributes'] = [remove_punc(p_tag) for p_tag in p_tags if '：' in p_tag]
+        print(basic_info['attributes'])
         return basic_info
 
     '''病因、预防'''
