@@ -1,14 +1,7 @@
-
-
+# -*- coding: utf-8 -*-
 import os, json
 from py2neo import Graph, Node
-
-# 疾病的属性
-disease_property = [
-    'name', 'desc', 'prevent', 'cause', 'easy_get', 'cure_department', 'cure_way', 'cure_lasttime', 'symptom', 'cured_prob'
-]
-entity_name = ['Drug', 'Food', 'Check', 'Department', 'Producer', 'Symptom', 'Disease']
-entity_file_name = ['drug.txt', 'food.txt', 'check.txt', 'department.txt', 'producer.txt', 'symptoms.txt', 'disease.txt']
+from Common.Util import *
 
 
 class MedicalGraph:
