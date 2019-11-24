@@ -19,7 +19,6 @@ class QuestionClassifier:
         self.deny_words = [i.strip() for i in open(self.deny_path, encoding='utf-8') if i.strip()]
         # 特征词构成领域专业词
         self.domain_words = set(self.domain_words)
-        print(self.domain_words)
         # 构造领域actree  两种数据结构：trie和Aho-Corasick自动机
         self.domain_tree = self.build_actree(list(self.domain_words))
         # 构建词典 词对应的类型
@@ -82,13 +81,12 @@ class QuestionClassifier:
         data['args'] = domain_word2type
         # 问句中涉及的所有实体类型
         types = []
-        print(domain_word2type.values())
-        for type_ in domain_word2type.values(): # values 是个list  {'百日咳': ['Disease']}
+        for type_ in domain_word2type.values(): # values 是list的list  {'百日咳': ['Disease']}
             types += type_
 
         question_type = 'Others'
         question_types = []
-        # 疾病->症状
+        # 不包括最后6个特征词
         for template_words, node_name, question_type in qwords_type:
             if node_name in types and self.check_words(template_words, question):
                 print(question_type)
@@ -129,3 +127,4 @@ while 1:
     question = input('input an question:')
     data = handler.classify(question)
     print(data)
+

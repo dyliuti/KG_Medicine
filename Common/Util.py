@@ -26,22 +26,25 @@ belong_qwds = ['属于什么科', '属于', '什么科', '科室']
 cure_qwds = ['治疗什么', '治啥', '治疗啥', '医治啥', '治愈啥', '主治啥', '主治什么', '有什么用', '有何用', '用处', '用途',
                   '有什么好处', '有什么益处', '有何益处', '用来', '用来做啥', '用来作甚', '需要', '要']
 
+# 查询的问题不包含关系的个数
+NUM_NO_REL_QUESTION = 6
 # 模板词--实体类型（节点类型）--问题类型
 qwords_type = [
-    [symptom_qwds,   'Disease', 'Disease_Symptom'],
-    [symptom_qwds,   'Symptom', 'Symptom_Disease'],
-    [cause_qwds,     'Disease', 'Disease_Cause'],
-    [acompany_qwds,  'Disease', 'Disease_Acompany'],
-    [drug_qwds,      'Disease', 'Disease_drug'],
-    [cure_qwds,      'Drug',    'Drug_Cure'],
-    [check_qwds,     'Disease', 'Disease_Check'],
-    [check_qwds,     'Check',   'Check_Check'],
-    [cure_qwds,      'Check',   'Check_Cure'],
-    [prevent_qwds,   'Disease', 'Disease_Prevent'],
-    [lasttime_qwds,  'Disease', 'Disease_Lasttime'],
-    [cureway_qwds,   'Disease', 'Disease_Cureway'],
-    [cureprob_qwds,  'Disease', 'Disease_Cureprob'],
-    [easyget_qwds,   'Disease', 'Disease_Easyget'],
+    [cause_qwds,    'Disease',  'Disease_Cause'],
+    [prevent_qwds,  'Disease',  'Disease_Prevent'],
+    [lasttime_qwds, 'Disease',  'Disease_Lasttime'],
+    [cureway_qwds,  'Disease',  'Disease_Cureway'],
+    [cureprob_qwds, 'Disease',  'Disease_Cureprob'],
+    [easyget_qwds,  'Disease',  'Disease_Easyget'],
+
+    [symptom_qwds,  'Disease',  'Disease_Symptom'],
+    [symptom_qwds,  'Symptom',  'Symptom_Disease'],
+    [acompany_qwds, 'Disease',  'Disease_Acompany'],
+    [drug_qwds,     'Disease',  'Disease_Drug'],
+    [cure_qwds,     'Drug',     'Drug_Disease'],
+    [check_qwds,    'Disease',  'Disease_Check'],
+    [check_qwds,    'Check',    'Check_Disease'],
+    [cure_qwds,     'Check',    'Check_Disease'],
 ]
 #     [food_qwds,      'Disease', 'Disease_PositiveFood'],    # 已知疾病找实物
 #     [food_qwds,      'Disease', 'Disease_NegativeFood'],
@@ -50,5 +53,27 @@ qwords_type = [
 #     [cure_qwds,      'Food',    'PositiveFood_Disease'],
 #     [cure_qwds,      'Food',    'NegativeFood_Disease'],
 
+# 关系-节点名称（实体名称）-问题类型
+query_rels = [
+    ['Disease_Symptom',     'has_symptom',      'Symptom'],
+    ['Symptom_Disease',     'has_symptom',      'Symptom'],
+    ['Disease_Acompany',    'acompany_with',    'Disease'],
+    ['Disease_Drug',        'common_drug',      'Drug'],
+    ['Disease_Drug',        'recommand_drug',   'Drug'],
+    ['Drug_Disease',        'common_drug',      'Drug'],
+    ['Drug_Disease',        'recommand_drug',   'Drug'],
+    ['Disease_Check',       'need_check',       'Check'],
+    ['Check_Disease',       'need_check',       'Check'],
+
+    ['Disease_PositiveFood', 'do_eat',          'Food'],
+    ['Disease_PositiveFood', 'recommand_eat',   'Food'],
+    ['Disease_NegativeFood', 'no_eat',          'Food'],
+    ['PositiveFood_Disease', 'do_eat',          'Food'],
+    ['PositiveFood_Disease', 'recommand_eat',   'Food'],
+    ['NegativeFood_Disease', 'no_eat',          'Food'],
+]
+# 下面这两种关系是多余的
+#     ['drugs_of', ''],
+#     ['belongs_to', ''],
 def remove_punc(text):
     return text.replace('\r' ,'').replace('\n' ,'').replace('\xa0', ' ').replace('   ', '').replace('\t' ,'')
