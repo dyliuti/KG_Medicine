@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# Author: yanminwei
+# Date: 2019/11/21
+
 import os
 import ahocorasick
 from Common.Util import *
@@ -50,7 +53,7 @@ class QuestionClassifier:
         for i in self.domain_tree.iter(question):   # 将AC_KEY中的每一项与content内容作对比，若匹配则返回
             word = i[1][1]
             # print(i)    # (1, (32433, '耳鸣'))  第几个  value(end_index, value)
-            print('word: ', word)
+            # print('word: ', word)
             domain_words.append(word)
         # 同类词保留字多的
         stop_words = []
@@ -86,10 +89,10 @@ class QuestionClassifier:
 
         question_type = 'Others'
         question_types = []
-        # 不包括最后6个特征词
-        for template_words, node_name, question_type, _ in qwords_type:
+        # 不包括最后6个关于food的特征词
+        for template_words, node_name, question_type, _ in qwords_type[:NUM_FOOD_QUESTION]:
             if node_name in types and self.check_words(template_words, question):
-                print(question_type)
+                # print(question_type)
                 question_types.append(question_type)
 
         # 推荐食品
@@ -122,9 +125,9 @@ class QuestionClassifier:
         data['question_types'] = question_types
         return data
 
-handler = QuestionClassifier()
-while 1:
-    question = input('input an question:')
-    data = handler.classify(question)
-    print(data)
+# handler = QuestionClassifier()
+# while 1:
+#     question = input('input an question:')
+#     data = handler.classify(question)
+#     print(data)
 

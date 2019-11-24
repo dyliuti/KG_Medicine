@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# Author: yanminwei
+# Date: 2019/11/24
+
 from Common.Util import *
 
 class QuestionPaser:
@@ -25,17 +28,17 @@ class QuestionPaser:
         sql_template = "MATCH (m:Disease) where m.name = '{name}' return m.name, m.{property}"
         for _, node_name, q_type, property_ in qwords_type[:NUM_NO_REL_QUESTION]:
             if question_type == q_type:
-                sql = [sql_template.format(name=feature, property=property_) for feature in features]
+                sql += [sql_template.format(name=feature, property=property_) for feature in features]
 
         # 查询疾病的属性-描述  特殊的没在qwords_type中
         if question_type == 'Disease_Desc':
-            sql = [sql_template.format(name=feature, property='desc') for feature in features]
+            sql += [sql_template.format(name=feature, property='desc') for feature in features]
 
         # 查询有关系的实体
-        sql_template = "MATCH (m:Disease)-[r:{rel}]->(n:{node_name}) where n.name = '{name}' return m.name, r.name, n.name"
+        sql_template = "MATCH (m:Disease)-[r:{rel}]->(n:{node_name}) where m.name = '{name}' return m.name, r.name, n.name"
         for q_type, rel, node_name in query_rels:
             if question_type == q_type:
-                sql = [sql_template.format(rel=rel, node_name=node_name, name=feature) for feature in features]
+                sql += [sql_template.format(rel=rel, node_name=node_name, name=feature) for feature in features]
 
         return sql
 
@@ -62,7 +65,7 @@ class QuestionPaser:
 
         return sqls
 
-res_classify = dict({'args': {'百日咳': ['Disease']}, 'question_types': ['Disease_Cureway']})
-handler = QuestionPaser()
-sqls = handler.parse_main(res_classify)
-print(sqls)
+# res_classify = dict({'args': {'百日咳': ['Disease']}, 'question_types': ['Disease_Cureway']})
+# handler = QuestionPaser()
+# sqls = handler.parse_main(res_classify)
+# print(sqls)

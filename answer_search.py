@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# Author: yanminwei
+# Date: 2019/11/24
 
 from py2neo import Graph
 from Common.Util import *
@@ -23,21 +25,21 @@ class AnswerSearcher:
         if question_type == 'Disease_Cureway':
             # answer:  [{'m.name': '百日咳', 'm.cure_way': ['药物治疗', '支持性治疗']}]
             # TypeError: unhashable type: 'list' 所以要在列表中先将['药物治疗', '支持性治疗']合并
-            desc = [';'.join(i['m.cure_way']) for i in answers]
             subject = answers[0]['m.name']
+            desc = [';'.join(i['m.cure_way']) for i in answers]
             final_answer = '{0}可以尝试如下治疗：{1}'.format(subject, '；'.join(list(set(desc))[:self.num_limit]))
 
         if question_type == 'Disease_Acompany':
+            subject = answers[0]['m.name']
             desc1 = [ans['n.name'] for ans in answers]
             desc2 = [ans['m.name'] for ans in answers]
-            subject = answers[0]['m.name']
             desc = [i for i in desc1 + desc2 if i != subject]
             final_answer = '{0}的症状包括：{1}'.format(subject, '；'.join(list(set(desc))[:self.num_limit]))
 
-        elif question_type == 'disease_do_food':
+        elif question_type == 'Disease_PositiveFood':
+            subject = answers[0]['m.name']
             do_desc = [i['n.name'] for i in answers if i['r.name'] == '宜吃']
             recommand_desc = [i['n.name'] for i in answers if i['r.name'] == '推荐食谱']
-            subject = answers[0]['m.name']
             final_answer = '{0}宜食的食物包括有：{1}\n推荐食谱包括有：{2}'.format(subject, ';'.join(list(set(do_desc))[:self.num_limit]),
                                                                  ';'.join(list(set(recommand_desc))[:self.num_limit]))
         return final_answer
@@ -59,7 +61,7 @@ class AnswerSearcher:
                 final_answers.append(final_answer)
         return final_answers
 
-sqls = [{'question_type': 'Disease_Cureway', 'sql': ["MATCH (m:Disease) where m.name = '百日咳' return m.name, m.cure_way"]}]
-handle = AnswerSearcher()
-final_answer = handle.search_main(sqls)
-print(final_answer)
+# sqls = [{'question_type': 'Disease_Cureway', 'sql': ["MATCH (m:Disease) where m.name = '百日咳' return m.name, m.cure_way"]}]
+# handle = AnswerSearcher()
+# final_answer = handle.search_main(sqls)
+# print(final_answer)

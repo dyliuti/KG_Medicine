@@ -28,6 +28,7 @@ cure_qwds = ['治疗什么', '治啥', '治疗啥', '医治啥', '治愈啥', '�
 
 # 查询的问题不包含关系的个数
 NUM_NO_REL_QUESTION = 6
+NUM_FOOD_QUESTION = -6
 # 模板词--实体类型（节点类型）--问题类型-疾病属性
 qwords_type = [
     [cause_qwds,    'Disease',  'Disease_Cause',    'cause'],
@@ -45,15 +46,17 @@ qwords_type = [
     [check_qwds,    'Disease',  'Disease_Check',    ''],
     [check_qwds,    'Check',    'Check_Disease',    ''],
     [cure_qwds,     'Check',    'Check_Disease',    ''],
-]
-#     [food_qwds,      'Disease', 'Disease_PositiveFood'],    # 已知疾病找实物
-#     [food_qwds,      'Disease', 'Disease_NegativeFood'],
-#     [food_qwds,      'Food',    'PositiveFood_Disease'],        # 已知实物找对应疾病
-#     [food_qwds,      'Food',    'NegativeFood_Disease'],
-#     [cure_qwds,      'Food',    'PositiveFood_Disease'],
-#     [cure_qwds,      'Food',    'NegativeFood_Disease'],
 
-# 关系-节点名称（实体名称）-问题类型
+    [food_qwds,      'Disease', 'Disease_PositiveFood', ''],    # 已知疾病找实物
+    [food_qwds,      'Disease', 'Disease_NegativeFood', ''],
+    [food_qwds,      'Food',    'PositiveFood_Disease', ''],    # 已知实物找对应疾病
+    [food_qwds,      'Food',    'NegativeFood_Disease', ''],
+    [cure_qwds,      'Food',    'PositiveFood_Disease', ''],
+    [cure_qwds,      'Food',    'NegativeFood_Disease', ''],
+]
+
+
+# 问题类型-关系-节点名称（实体名称）
 query_rels = [
     ['Disease_Symptom',     'has_symptom',      'Symptom'],
     ['Symptom_Disease',     'has_symptom',      'Symptom'],

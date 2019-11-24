@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# Author: yanminwei
+# Date: 2019/11/19
 # 将爬虫得到的数据进行进一步提取得到本体
 
 
