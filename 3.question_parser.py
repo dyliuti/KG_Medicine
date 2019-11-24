@@ -23,9 +23,9 @@ class QuestionPaser:
         sql = list()
         # 查询疾病属性(无关系)的sql查询模板
         sql_template = "MATCH (m:Disease) where m.name = '{name}' return m.name, m.{property}"
-        for _, node_name, q_type in qwords_type[:NUM_NO_REL_QUESTION]:
+        for _, node_name, q_type, property_ in qwords_type[:NUM_NO_REL_QUESTION]:
             if question_type == q_type:
-                sql = [sql_template.format(name=feature, property=q_type.split('_')[1].lower()) for feature in features]
+                sql = [sql_template.format(name=feature, property=property_) for feature in features]
 
         # 查询疾病的属性-描述  特殊的没在qwords_type中
         if question_type == 'Disease_Desc':
@@ -52,9 +52,9 @@ class QuestionPaser:
         for question_type in question_types:
             sql, sql_list = dict(), list()
             sql['question_type'] = question_type
-            for _, node_name, q_type in qwords_type:
+            for _, node_name, q_type, _ in qwords_type:
                 if question_type == q_type:
-                    sql_list = self.sql_transfer(question_type, entity2feature.get(node_name))
+                    sql_list = self.sql_transfer(question_type=question_type, features=entity2feature.get(node_name))
 
             if sql_list:
                 sql['sql'] = sql_list
@@ -62,7 +62,7 @@ class QuestionPaser:
 
         return sqls
 
-res_classify = dict({'args': {'感冒': ['Disease']}, 'question_types': ['Disease_Cureway']})
+res_classify = dict({'args': {'百日咳': ['Disease']}, 'question_types': ['Disease_Cureway']})
 handler = QuestionPaser()
-sql = handler.parse_main(res_classify)
-print(sql)
+sqls = handler.parse_main(res_classify)
+print(sqls)

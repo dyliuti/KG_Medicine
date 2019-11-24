@@ -28,23 +28,23 @@ cure_qwds = ['治疗什么', '治啥', '治疗啥', '医治啥', '治愈啥', '�
 
 # 查询的问题不包含关系的个数
 NUM_NO_REL_QUESTION = 6
-# 模板词--实体类型（节点类型）--问题类型
+# 模板词--实体类型（节点类型）--问题类型-疾病属性
 qwords_type = [
-    [cause_qwds,    'Disease',  'Disease_Cause'],
-    [prevent_qwds,  'Disease',  'Disease_Prevent'],
-    [lasttime_qwds, 'Disease',  'Disease_Lasttime'],
-    [cureway_qwds,  'Disease',  'Disease_Cureway'],
-    [cureprob_qwds, 'Disease',  'Disease_Cureprob'],
-    [easyget_qwds,  'Disease',  'Disease_Easyget'],
+    [cause_qwds,    'Disease',  'Disease_Cause',    'cause'],
+    [prevent_qwds,  'Disease',  'Disease_Prevent',  'prevent'],
+    [lasttime_qwds, 'Disease',  'Disease_Lasttime', 'cure_lasttime'],
+    [cureway_qwds,  'Disease',  'Disease_Cureway',  'cure_way'],
+    [cureprob_qwds, 'Disease',  'Disease_Cureprob', 'cured_prob'],
+    [easyget_qwds,  'Disease',  'Disease_Easyget',  'easy_get'],
 
-    [symptom_qwds,  'Disease',  'Disease_Symptom'],
-    [symptom_qwds,  'Symptom',  'Symptom_Disease'],
-    [acompany_qwds, 'Disease',  'Disease_Acompany'],
-    [drug_qwds,     'Disease',  'Disease_Drug'],
-    [cure_qwds,     'Drug',     'Drug_Disease'],
-    [check_qwds,    'Disease',  'Disease_Check'],
-    [check_qwds,    'Check',    'Check_Disease'],
-    [cure_qwds,     'Check',    'Check_Disease'],
+    [symptom_qwds,  'Disease',  'Disease_Symptom',  ''],
+    [symptom_qwds,  'Symptom',  'Symptom_Disease',  ''],
+    [acompany_qwds, 'Disease',  'Disease_Acompany', ''],
+    [drug_qwds,     'Disease',  'Disease_Drug',     ''],
+    [cure_qwds,     'Drug',     'Drug_Disease',     ''],
+    [check_qwds,    'Disease',  'Disease_Check',    ''],
+    [check_qwds,    'Check',    'Check_Disease',    ''],
+    [cure_qwds,     'Check',    'Check_Disease',    ''],
 ]
 #     [food_qwds,      'Disease', 'Disease_PositiveFood'],    # 已知疾病找实物
 #     [food_qwds,      'Disease', 'Disease_NegativeFood'],
@@ -75,5 +75,30 @@ query_rels = [
 # 下面这两种关系是多余的
 #     ['drugs_of', ''],
 #     ['belongs_to', ''],
+
+# 问题类型-disease_name的键值-feature_name的键值-回答模板
+answer_template = [
+    ['Disease_Symptom',     'n.name', 'm.name',     '{disease_name}的症状包括：{feature_name}'],
+    ['Symptom_Disease',     'm.name', 'n.name',     '症状{disease_name}可能染上的疾病有：{feature_name}'],
+    ['Disease_Cause',       'm.cause', 'm.name',    '{disease_name}可能的成因有：{feature_name}'],      # 这个query_labels中没有 检查下
+    ['Disease_Prevent',     'm.prevent', 'm.name',  '{disease_name}的预防措施包括：{feature_name}'],  # 痛还是那个
+    ['Disease_Lasttime',    'm.cure_lasttime', 'm.name', '{disease_name}治疗可能持续的周期为：{feature_name}'],
+
+    ['Disease_Cureprob',    'm.cured_prob', 'm.name', '{disease_name}治愈的概率为（仅供参考）：{feature_name}'],
+    ['Disease_Easyget',     'm.easy_get', 'm.name', '{disease_name}的易感人群包括：{feature_name}'],  # 有点特别
+    ['Disease_Desc',        'm.desc', 'm.name',     '{disease_name},熟悉一下：{feature_name}'],           # 有点特别
+    ['Disease_NegativeFood','n.name', 'm.name',    '{disease_name}忌食的食物包括有：{feature_name}'],
+    ['PositiveFood_Disease','m.name', 'n.name',    '患有{disease_name}的人建议多试试{feature_name}'],
+    ['NegativeFood_Disease','m.name', 'n.name',    '患有{disease_name}的人最好不要吃{feature_name}'],
+    ['Disease_Drug',        'n.name', 'm.name',    '{disease_name}通常的使用的药品包括：{feature_name}'],
+    ['Drug_Disease',        'm.name', 'n.name',    '{disease_name}主治的疾病有{feature_name},可以试试'],
+    ['Disease_Check',       'n.name', 'm.name',    '{disease_name}通常可以通过以下方式检查出来：{feature_name}'],
+    ['Check_Disease',       'm.name', 'n.name',    '通常可以通过{disease_name}检查出来的疾病有{feature_name}'],
+]
+# 例外
+# ['Disease_Cureway',     'm.cure_way', 'm.name', '{disease_name}可以尝试如下治疗：{feature_name}'],
+# ['Disease_PositiveFood','m.name', 'n.name',    '{disease_name}宜食的食物包括有：{feature_name}\n推荐食谱包括有：{feature_name2}'],
+# ['Disease_Acompany',    'n.name', 'n.name' + 'm.name', '{disease_name}的症状包括：{feature_name}'.format(subject, '；'.join(list(set(desc))[:self.num_limit]))]
+
 def remove_punc(text):
     return text.replace('\r' ,'').replace('\n' ,'').replace('\xa0', ' ').replace('   ', '').replace('\t' ,'')

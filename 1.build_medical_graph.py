@@ -11,7 +11,6 @@ class MedicalGraph:
 
 
     def read_nodes(self):
-        diseases, disease = [], dict()
         # 定义实体， 共7类作为Node
         drugs = [] # 药品
         foods = [] #　食物
@@ -21,7 +20,7 @@ class MedicalGraph:
         diseases = [] #疾病
         symptoms = []#症状
 
-        disease_infos = []  # 疾病信息
+        disease_infos = list()  # 疾病信息
 
         # 构建节点实体关系 即edge边  这里用[(a,b),(,)...]形式 元组内即对应关系 a->b
         rels_department = [] #　科室－科室关系
@@ -39,14 +38,17 @@ class MedicalGraph:
 
         num = 0
         for data in open(self.data_path, encoding='utf-8'):
+            disease = dict()
             num += 1
             print("已处理%d条。" % num)
             data_json = json.loads(data)
             # 获取疾病属性
             for attribute in disease_property:
+                disease[attribute] = []  # 若没，就为空列表，不然下面len，[]取键值会出错
                 if attribute in data_json:
                     disease[attribute] = data_json.get(attribute)
             disease_name = disease['name']
+            diseases.append(disease_name)
             # 属性中department为实体
             if 'cure_department' in disease:
                 cure_department = disease['cure_department']
@@ -136,6 +138,7 @@ class MedicalGraph:
             # # 参数子图可以是 节点、关系、子图
             self.g.create(node)
             count += 1
+            print(disease_dict['name'])
             print('已经创建%d个Disease节点' % count)
         return
 

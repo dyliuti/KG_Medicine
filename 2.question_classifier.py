@@ -87,7 +87,7 @@ class QuestionClassifier:
         question_type = 'Others'
         question_types = []
         # 不包括最后6个特征词
-        for template_words, node_name, question_type in qwords_type:
+        for template_words, node_name, question_type, _ in qwords_type:
             if node_name in types and self.check_words(template_words, question):
                 print(question_type)
                 question_types.append(question_type)
