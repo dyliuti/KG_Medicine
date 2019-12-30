@@ -31,6 +31,6 @@ class MongoPipeline(object):
     def process_item(self, item, spider):
         if item['basic_info'].get('name', None) is None:
             return DropItem
-        collection_name = 'dyliuti'
+        collection_name = 'test'
         self.db[collection_name].insert(dict(item))
         return item
