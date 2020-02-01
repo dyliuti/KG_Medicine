@@ -1,6 +1,6 @@
 **“纸上得来终觉浅，绝知此事要躬行。”  —— 陆游**
 
-**"Practice，practice，practice and summary makes perfect" —— dyliuti**
+**"Practice，practice，practice and summary make perfect" —— dyliuti**
 
 ------
 
@@ -8,7 +8,7 @@
 
 **感谢：**
 
-这一年感谢真正富有学识，又乐于分享的大神们。你们总是在想能给予别人什么，怎么成就别人，让人敬佩。也感谢可能素不相识，却给过我鼓励的人们，谢谢了！我的微信yanminweilalala，若想交个朋友或进一步交流可以加我微信。
+2019年已过去，这一年感谢真正富有学识，又乐于分享的大神们。你们总是在想能给予别人什么，怎么成就别人，让人敬佩。也感谢可能素不相识，却给过我鼓励的人们，谢谢了！
 
 <br>
 
@@ -42,5 +42,5 @@
 
 **引用说明：**
 
-引用了[liuhuanyong](https://github.com/liuhuanyong/QASystemOnMedicalKG)博士的一个开源项目，将爬虫部分从Request请求换成了scrapy进行爬取。当作练习scrapy。此外，对抽取了一些实体的共同点，简化了代码实现，逻辑可能更加清晰了，也更便于维护些。
+引用了[liuhuanyong](https://github.com/liuhuanyong/QASystemOnMedicalKG)博士的一个开源项目，将爬虫部分从Request请求换成了scrapy进行爬取。当作练习scrapy。此外，对抽取了一些实体的共同点，简化了代码实现，逻辑更加清晰了，也更便于维护、扩展。
 
